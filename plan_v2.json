@@ -1,0 +1,262 @@
+[
+  {
+    "step": "Read and analyze backend dependencies and structure from pom.xml",
+    "sub_steps": [
+      "Open /home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/pom.xml to examine all dependencies and ensure required libraries are available.",
+      "Understand which annotations, packages, and frameworks (Spring Boot, Spring Data JPA, MySQL, validation, Lombok) are accessible.",
+      "Reference the application.properties in resources for MySQL configuration."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/pom.xml",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/resources/application.properties"
+    ],
+    "description": "This step ensures complete awareness of all backend dependencies, features and database setup, forming the foundation for backend implementation."
+  },
+  {
+    "step": "Implement Backend Data Models (Entities) for Project, Proposal, and Contract",
+    "sub_steps": [
+      "Create Project entity with fields, validation, JPA annotations.",
+      "Create Proposal entity with fields, validation, JPA annotations.",
+      "Create Contract entity with fields, validation, JPA annotations.",
+      "Handle field constraints (e.g. proposalText character limits, budget range).",
+      "Add necessary date/time and relationship/foreign key annotations.",
+      "Use Lombok for boilerplate code reduction."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/model/Project.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/model/Proposal.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/model/Contract.java"
+    ],
+    "files_to_edit": [],
+    "description": "Defines all main data structures with validation and relationships as per the business rules."
+  },
+  {
+    "step": "Implement Backend Repository Interfaces",
+    "sub_steps": [
+      "Create ProjectRepository extending JpaRepository.",
+      "Create ProposalRepository extending JpaRepository, add method to find all Proposals by projectId and to check for existing proposals by freelancer for a project.",
+      "Create ContractRepository extending JpaRepository, add method to find contract by proposalId."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/repository/ProjectRepository.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/repository/ProposalRepository.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/repository/ContractRepository.java"
+    ],
+    "files_to_edit": [],
+    "description": "Provides database access for all main entities following Spring Data JPA best practices."
+  },
+  {
+    "step": "Implement Backend Service Classes",
+    "sub_steps": [
+      "Create ProjectService to manage Project CRUD and business logic.",
+      "Create ProposalService for handling proposal logic, enforcement of one proposal per freelancer per project.",
+      "Create ContractService for managing contract logic and proposal-to-contract transitions.",
+      "Centralize input validation beyond annotation-based where needed and ensure business error conditions are handled.",
+      "Throw custom exceptions for error cases."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/service/ProjectService.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/service/ProposalService.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/service/ContractService.java"
+    ],
+    "files_to_edit": [],
+    "description": "Encapsulates business logic, service orchestration, and validates domain constraints."
+  },
+  {
+    "step": "Implement Backend Exception Handling (Global and Custom Exceptions)",
+    "sub_steps": [
+      "Create custom exception classes for 400, 404, 409, and 500-style errors.",
+      "Implement GlobalExceptionHandler (via @RestControllerAdvice) for standardized error responses matching required messages.",
+      "Ensure meaningful messages and proper HTTP status codes per the requirements."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/exception/GlobalExceptionHandler.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/exception/ResourceNotFoundException.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/exception/BadRequestException.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/exception/ConflictException.java"
+    ],
+    "files_to_edit": [],
+    "description": "Handles all errors in a centralized, predictable way, ensuring API clients receive meaningful and spec-compliant responses."
+  },
+  {
+    "step": "Implement Backend REST Controllers for Projects, Proposals, and Contracts (with CORS)",
+    "sub_steps": [
+      "Create ProjectController containing /api/projects, /api/projects/{id} endpoints for create, get all, get by id.",
+      "Create ProposalController with /api/proposals (POST), /api/projects/{projectId}/proposals (GET).",
+      "Create ContractController with /api/contracts (POST), /api/contracts/{id} (GET).",
+      "Include validation, error handling as specified.",
+      "Add CORS configuration (either via @CrossOrigin or Security config) to allow frontend React app access (from localhost:3000 or all by default)."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/controller/ProjectController.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/controller/ProposalController.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/controller/ContractController.java"
+    ],
+    "files_to_edit": [],
+    "description": "Exposes required endpoints matching the API contract, with CORS for React frontend integration."
+  },
+  {
+    "step": "Implement All Backend Test Cases using JUnit (Spring Boot)",
+    "sub_steps": [
+      "For each test case from the provided Test Cases JSON, implement a corresponding test method with the exact test name and scenario as described.",
+      "Use MockMvc to simulate REST API requests and assert the correct responses, including status, returned objects, and error messages.",
+      "Mock repository/service layers where appropriate using Mockito.",
+      "Test both positive and negative flows as described in test case descriptions.",
+      "Ensure integration between controller, service, and repository layers.",
+      "Backend test cases to implement:",
+      "  - testCreateProject: POST /api/projects with valid data; check 201, response content, and DB.",
+      "  - testGetProjectById: GET /api/projects/{id} for exists and not exists (404).",
+      "  - testSubmitProposal: POST /api/proposals with valid data; check for 201, response, and DB.",
+      "  - testCreateContract: POST /api/contracts with valid data; check for 201 and DB.",
+      "  - testValidationErrors: POST /api/projects with invalid data; check for 400 and error messages."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/test/java/com/examly/springapp/controller/ProjectControllerTest.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/test/java/com/examly/springapp/controller/ProposalControllerTest.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/test/java/com/examly/springapp/controller/ContractControllerTest.java"
+    ],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/model/Project.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/model/Proposal.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/model/Contract.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/controller/ProjectController.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/controller/ProposalController.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/springapp/src/main/java/com/examly/springapp/controller/ContractController.java"
+    ],
+    "description": "Provides complete automated regression for backend logic as per required test cases."
+  },
+  {
+    "step": "Compile and Test Backend Code",
+    "sub_steps": [
+      "Run mvn clean compile -q -Dspring.main.banner-mode=off to check for compilation errors.",
+      "Run mvn test -q -Dspring.main.banner-mode=off to verify backend test cases.",
+      "Run mvn clean install -q -Dspring.main.banner-mode=off to verify the full build and install."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [],
+    "description": "Validates that all backend code and tests compile and pass as a foundation for frontend development."
+  },
+  {
+    "step": "Read and analyze frontend dependencies and structure from package.json",
+    "sub_steps": [
+      "Open /home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/package.json to verify dependencies (e.g. React, React Router, Testing Library, etc).",
+      "Review src/App.js, src/index.js, and build structure to plan for integration of new components."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/package.json",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/App.js"
+    ],
+    "description": "Prepares for frontend component development and integration with existing structure."
+  },
+  {
+    "step": "Create React utilities and constants for API interaction and layout",
+    "sub_steps": [
+      "Add utils/api.js for all HTTP fetches to the backend, with API_BASE as http://localhost:8080.",
+      "Add utils/constants.js for endpoints, API URLs, and validation error messages.",
+      "Add utils/helpers.js for date formatting, string slicing, etc.",
+      "Add and configure global CSS variables and classes for styling as per the guidelines (colors, buttons, errors, utilities)."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/utils/api.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/utils/constants.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/utils/helpers.js"
+    ],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/index.css",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/App.css"
+    ],
+    "description": "Standardizes and DRYs out API/validation logic and provides a unified design/styling base for the frontend."
+  },
+  {
+    "step": "Create ProjectListing Component and Test",
+    "sub_steps": [
+      "Implement ProjectListing (src/components/ProjectListing.js): fetches all projects from backend, shows cards with summary and \"View Details\" button.",
+      "Handle loading, error, and empty states per requirements.",
+      "Apply required styling and layout practices.",
+      "Create corresponding ProjectListing.test.js to cover all test scenarios from Test Cases JSON (render with data, empty, error handling, correct display, button presence)."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProjectListing.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProjectListing.test.js"
+    ],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/App.js"
+    ],
+    "description": "Builds main home/listing interface and satisfies the renderProjectListingPage and handleEmptyProjectList test cases."
+  },
+  {
+    "step": "Create ProjectDetails Component and Test",
+    "sub_steps": [
+      "Implement ProjectDetails (src/components/ProjectDetails.js): fetches project by ID from backend and displays all project info.",
+      "Include 'Submit Proposal' button (opens form), and 'Back to Projects' button.",
+      "Handle loading, error, and navigation states.",
+      "Apply required design and structure.",
+      "Create corresponding ProjectDetails.test.js to match renderProjectDetailsPage and error/testcase expectations (proper details, loading, error, navigation)."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProjectDetails.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProjectDetails.test.js"
+    ],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/App.js"
+    ],
+    "description": "Implements project detail viewing and satisfies the relevant Jest test case requirements."
+  },
+  {
+    "step": "Create ProposalForm Component and Test",
+    "sub_steps": [
+      "Implement ProposalForm (src/components/ProposalForm.js): form for bidAmount, proposalText, estimatedDays with validations.",
+      "Disable submit when validation fails and show proper error messages as specified.",
+      "Display success and error messages after API submission, with feedback and state resets.",
+      "Follow styling guidelines (input layout, error highlighting, button styles).",
+      "Create ProposalForm.test.js to cover test case scenarios (validation, submit success, validation errors, error messages, button state)."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProposalForm.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProposalForm.test.js"
+    ],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProjectDetails.js"
+    ],
+    "description": "Allows freelancers to submit proposals per spec and covers Jest tests for validation, form, and submission flows."
+  },
+  {
+    "step": "Implement All Frontend Jest Test Cases According to the Provided JSON",
+    "sub_steps": [
+      "Ensure ProjectListing.test.js covers:",
+      "  - renderProjectListingPage",
+      "  - handleEmptyProjectList",
+      "Ensure ProjectDetails.test.js covers:",
+      "  - renderProjectDetailsPage",
+      "Ensure ProposalForm.test.js covers:",
+      "  - validateProposalForm",
+      "  - submitProposalSuccess",
+      "Precisely match error messages, validation patterns, loading indicators as tests expect.",
+      "Use jest+testing-library react: NO manual cleanup(), NO custom test utilities outside patterns described.",
+      "Use only minimal, direct mocks: global.fetch, jest.fn(), etc.",
+      "Test positive and negative user interactions (error, loading, success, empty states, navigation)."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProjectListing.test.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProjectDetails.test.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/9c586973-fafe-4b5e-85c6-cc88f48e915a/reactapp/src/components/ProposalForm.test.js"
+    ],
+    "description": "Ensures full test coverage of required UI functionalities exactly as described in the Test Cases JSON."
+  },
+  {
+    "step": "Compile, Lint, and Test Frontend Code",
+    "sub_steps": [
+      "Run npm install in the frontend directory.",
+      "Run npm run build to check for build errors.",
+      "Run npx eslint src/ --fix to automatically fix lint errors.",
+      "Run npm run test:ci to execute all Jest tests.",
+      "Fix any errors encountered in the process."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [],
+    "description": "Validates frontend code quality, build, lint, and passes all Jest tests."
+  }
+]

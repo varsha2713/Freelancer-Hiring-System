@@ -1,0 +1,60 @@
+/* index.css - Modernized */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #6366f1;      /* Indigo 500 */
+  --primary-light: #818cf8;      /* Indigo 400 */
+  --primary-dark: #4f46e5;       /* Indigo 600 */
+  --secondary-color: #f3f4f6;    /* Gray 100 */
+  --accent-color: #f43f5e;       /* Rose 500 */
+  --background-color: #f8fafc;   /* Slate 50 */
+  --surface-color: #ffffff;      
+  --text-color: #1e293b;         /* Slate 800 */
+  --text-light: #64748b;         /* Slate 500 */
+  --white: #ffffff;
+  --success: #10b981;            /* Emerald 500 */
+  --error: #ef4444;              /* Red 500 */
+  --warning: #f59e0b;            /* Amber 500 */
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+button {
+  font-family: inherit;
+}
