@@ -1,76 +1,164 @@
-# Freelancer Hiring System
+# 🚀 Freelancer Hiring System
 
-A full-stack Freelancer Hiring System that connects clients and freelancers through a structured project-based hiring platform. The system supports project management, proposal submission, real-time communication, contract generation, payments, reviews, and dashboards for tracking project activities.
+### A Full-Stack Platform for Project-Based Hiring, Collaboration & Payments
 
-## Features
+The Freelancer Hiring System is a full-stack web application designed to simplify the complete freelance hiring lifecycle — from project posting and proposal submission to communication, contract management, payments, and project completion.
 
-- User registration and role-based profiles
-- Client project posting and management
-- Freelancer project browsing and proposal submission
-- Proposal review and hiring workflow
-- Contract generation and downloadable PDF contracts
-- Payment management
-- Real-time chat between clients and freelancers
-- Client and freelancer dashboards
-- Project progress and activity tracking
-- Reviews and ratings
-- Form validation and exception handling
-- RESTful API-based frontend-backend communication
+It provides a centralized platform where clients can find and hire freelancers, while freelancers can discover projects, submit proposals, communicate with clients, manage contracts, and track their work.
 
-## Technology Stack
+---
 
-### Frontend
-- React.js
-- HTML
-- CSS
-- JavaScript
+## 💡 Why This Project?
 
-### Backend
-- Java
-- Spring Boot
-- Spring Data JPA
-- REST APIs
-- Bean Validation
+Traditional freelance hiring involves multiple platforms for communication, documentation, payments, and project tracking.
 
-### Database
-- MySQL
+This system brings these activities together into a single platform with:
 
-### Development Tools
-- Git
-- GitHub
-- Visual Studio Code
-- Maven
+**Project Management → Proposals → Hiring → Contracts → Chat → Payments → Reviews**
 
-## System Workflow
+The goal is to make freelance collaboration more structured, transparent, and efficient.
 
-1. Users register and access the system based on their role.
-2. Clients create projects by providing project details, budget, deadline, and required skills.
-3. Freelancers browse available projects and submit proposals with their bid and estimated delivery time.
-4. Clients review proposals and select a suitable freelancer.
-5. A contract is generated with project terms and can be downloaded as a PDF.
-6. Clients and freelancers communicate through the integrated chat system.
-7. Payments are processed based on the project workflow.
-8. Dashboards allow users to track projects, proposals, contracts, payments, and activities.
-9. Users can provide reviews and ratings after project completion.
+---
 
-## Project Structure
+## ✨ Key Features
+
+### 👤 Role-Based User Experience
+- Client and Freelancer workflows
+- Dedicated dashboards
+- Profile-based project interaction
+- Role-specific activities and management
+
+### 📋 Project Management
+- Create and manage projects
+- Define project description, budget, deadline, and required skills
+- Browse and view available projects
+- Track project activities
+
+### 💼 Proposal & Hiring
+- Freelancers can submit proposals
+- Bid amount and estimated delivery time
+- Clients can review submitted proposals
+- Structured freelancer selection workflow
+
+### 📄 Contract Management
+- Generate contracts after successful hiring
+- Store project and agreement details
+- Download contracts as PDF
+- Digital documentation for project agreements
+
+### 💬 Communication
+- Integrated chat between clients and freelancers
+- Direct project-related communication
+- Reduces dependency on external communication platforms
+
+### 💳 Payment Management
+- Payment-related project workflow
+- Track payment information
+- Connect project completion with payment management
+
+### 📊 Dashboards
+- Role-based dashboards
+- Project and proposal tracking
+- Contract and payment visibility
+- Centralized activity monitoring
+
+### ⭐ Reviews & Ratings
+- Review completed project interactions
+- Rating-based feedback
+- Helps maintain transparency between users
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+|------|-------------|
+| Frontend | React.js, JavaScript, HTML, CSS |
+| Backend | Java, Spring Boot |
+| API | RESTful APIs |
+| Database | MySQL |
+| Persistence | Spring Data JPA / Hibernate |
+| Validation | Jakarta Bean Validation |
+| Build Tool | Maven |
+| Version Control | Git & GitHub |
+
+---
+
+## 🏗️ System Architecture
 
 ```text
-Freelancer-Hiring-System/
-│
-├── reactapp/
-│   └── React Frontend
-│
-├── springapp/
-│   └── Spring Boot Backend
-│
-├── README.md
-└── .gitignore
+                    ┌─────────────────────┐
+                    │      React.js       │
+                    │     Frontend       │
+                    └──────────┬──────────┘
+                               │
+                         REST APIs
+                               │
+                    ┌──────────▼──────────┐
+                    │    Spring Boot      │
+                    │      Backend        │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │  Service Layer      │
+                    │  Business Logic     │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │ Repository / JPA    │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │       MySQL         │
+                    │      Database       │
+                    └─────────────────────┘
 
 
-Backend Architecture
+Application Workflow
 
-The backend follows a layered architecture:
+Client
+  │
+  ├── Create Project
+  │       ↓
+  │   Project Listed
+  │       ↓
+  │   Receive Proposals
+  │       ↓
+  │   Select Freelancer
+  │       ↓
+  │   Generate Contract
+  │       ↓
+  │   Chat & Collaborate
+  │       ↓
+  │   Manage Payments
+  │       ↓
+  │   Complete Project
+  │       ↓
+  └── Review Freelancer
+
+
+Freelancer
+  │
+  ├── Browse Projects
+  │       ↓
+  │   View Project Details
+  │       ↓
+  │   Submit Proposal
+  │       ↓
+  │   Get Selected
+  │       ↓
+  │   Access Contract
+  │       ↓
+  │   Chat & Collaborate
+  │       ↓
+  │   Complete Project
+  │       ↓
+  └── Receive Payment & Review
+
+
+🔧 Backend Design
+
+The Spring Boot backend follows a layered architecture:
 
 Controller
      ↓
@@ -78,66 +166,69 @@ Service
      ↓
 Repository
      ↓
-MySQL Database
+MySQL
+Controller Layer
 
+Handles HTTP requests and exposes RESTful endpoints.
 
-Controller layer handles REST API requests.
-Service layer contains business logic.
-Repository layer manages database operations using JPA.
-Exception handling provides structured error responses.
-Validation ensures correct and consistent input data.
-Key Modules
-Project Management
+Service Layer
 
-Clients can create, update, view, and manage projects with budgets, deadlines, and required skills.
+Implements application business logic and workflow processing.
 
-Proposal Management
+Repository Layer
 
-Freelancers can submit proposals with bid amounts, proposal descriptions, and estimated delivery time.
+Uses Spring Data JPA for database access and CRUD operations.
 
-Contract Management
+Validation & Exception Handling
+Input validation
+Duplicate/conflict handling
+Resource-not-found handling
+Global exception handling
+Structured API error responses
+🗂️ Core Modules
+User
+ │
+ ├── Project
+ │      └── Proposal
+ │             └── Contract
+ │                    └── Payment
+ │
+ ├── Chat
+ │
+ ├── Dashboard
+ │
+ └── Review
+🎯 What This Project Demonstrates
 
-Approved proposals can be converted into contracts containing project terms and payment details. Contracts can be generated and downloaded as PDF documents.
+This project demonstrates practical experience in:
 
-Payment Management
-
-The system supports payment-related operations associated with freelancer projects and contracts.
-
-Chat
-
-Clients and freelancers can communicate through the integrated chat functionality.
-
-Dashboard
-
-Role-based dashboards provide users with a centralized view of their projects, proposals, contracts, payments, and activities.
-
-Reviews
-
-Users can provide reviews and ratings based on completed project interactions.
-
-Objective
-
-The main objective of the Freelancer Hiring System is to provide a centralized digital platform that simplifies the complete freelancer hiring process, from project posting and proposal submission to communication, contract management, payment, and project completion.
-
-Benefits
-Simplifies the hiring process
-Centralizes project and contract management
-Improves communication between clients and freelancers
-Provides transparent project and payment tracking
-Reduces manual documentation
-Provides downloadable digital contracts
-Enables efficient project monitoring through dashboards
-Future Enhancements
+Full-stack application development
+React component development
+React state and lifecycle management
+REST API development
+Spring Boot application architecture
+Spring Data JPA and Hibernate
+MySQL database integration
+CRUD operations
+API validation
+Exception handling
+Frontend-backend integration
+Git & GitHub workflow
+Modular software design
+End-to-end business workflow implementation
+🚀 Future Enhancements
 AI-based freelancer recommendation
 Advanced project analytics
 Automated notifications
-Secure online payment gateway integration
 Advanced search and filtering
-Mobile application
 Enhanced authentication and authorization
 AI-assisted proposal analysis
-Author
+Mobile application
+Extended payment gateway capabilities
 
+👩‍💻 Developer
 Varsha K S
 
-B.Tech – Information Technology
+B.Tech Information Technology
+
+Interested in Full-Stack Development, Software Engineering and AI-driven applications.
